@@ -12,7 +12,7 @@ from mmseg.apis import set_random_seed, train_segmentor
 from mmseg.datasets import build_dataset
 from mmseg.models import build_segmentor
 from mmseg.utils import collect_env, get_root_logger
-import denseclip
+import PPL
 
 
 def parse_args():
