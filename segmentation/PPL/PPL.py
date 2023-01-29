@@ -24,7 +24,7 @@ class PPL(BaseSegmentor):
     def __init__(self,
                  backbone,
                  text_encoder,
-                 context_decoder,
+                 vcp_decoder,
                  decode_head,
                  class_names,
                  context_length,
@@ -58,7 +58,7 @@ class PPL(BaseSegmentor):
 
         self.backbone = builder.build_backbone(backbone)
         self.text_encoder = builder.build_backbone(text_encoder)
-        self.context_decoder = builder.build_backbone(context_decoder)
+        self.vcp_decoder = builder.build_backbone(vcp_decoder)
         self.context_length = context_length
         self.score_concat_index = score_concat_index
 
@@ -214,7 +214,7 @@ class PPL(BaseSegmentor):
         for ctx in self.contexts:
             mu_i = self.text_encoder(self.texts.to(global_feat.device), ctx).expand(B, -1, -1)
             # update text_embeddings by visual_context!
-            logsigma_i = self.context_decoder(mu_i, visual_context)
+            logsigma_i = self.vcp_decoder(mu_i, visual_context)
             samples.append(self.sample_gaussian_tensors(mu_i, logsigma_i, num_samples=3))
             # samples.append(mu_i.unsqueeze(1))
             text_embeddings.append(mu_i.unsqueeze(1)) 
