@@ -10,7 +10,7 @@ from mmseg.apis import multi_gpu_test, single_gpu_test
 from mmseg.datasets import build_dataloader, build_dataset
 from mmseg.models import build_segmentor
 
-import denseclip
+import PPL
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -116,7 +116,7 @@ def main():
 
     # build the model and load checkpoint
     cfg.model.train_cfg = None
-    if 'DenseCLIP' in cfg.model.type:
+    if 'PPL' in cfg.model.type:
         cfg.model.class_names = list(dataset.CLASSES)
 
     model = build_segmentor(cfg.model, test_cfg=cfg.get('test_cfg'))
